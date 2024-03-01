@@ -37,8 +37,11 @@ def word_count_map(doc):
     [('i', 1), ('am', 1), ('sam', 1), ('i', 1), ('am', 1)]
     """
     ###TODO
+    word_split=[]
+    for word in doc.split():
+      word_split.append((word, 1))
     
-    
+    return word_split
 
 
 def word_count_reduce(group):
@@ -54,6 +57,7 @@ def word_count_reduce(group):
     NOTE: you should use call the `reduce` function here.
     """
     ###TODO
+    return (group[0], reduce(plus, 0, group[1]))
     
     
 
@@ -111,16 +115,30 @@ def reduce(f, id_, a):
 def sentiment_map(doc,
                   pos_terms=set(['good', 'great', 'awesome', 'sockdolager']),
                   neg_terms=set(['bad', 'terrible', 'waste', 'carbuncle', 'corrupted'])):
-    """
-    Params:
-      doc.........a string to be split into tokens. split on whitespace.
-      pos_terms...a set of positive terms
-      neg_terms...a set of negative terms
-    Returns:
-      a list of tuples of form (positive, 1) or (negative, 1)      
-    E.g.
-    >>> sentiment_map('it was a terrible waste of time')
-    [('negative', 1), ('negative', 1)]
-    """
-    ###TODO
+    
 
+  pos_count=[]
+  neg_count=[]
+  
+  for sentiment in doc.split():
+    if sentiment in pos_terms:
+      pos_count.append(('positive', 1))
+    elif sentiment in neg_terms:
+      neg_count.append(('negative', 1))
+
+  total = pos_count + neg_count
+  return total
+
+
+"""      
+Params:
+  doc.........a string to be split into tokens. split on whitespace.
+  pos_terms...a set of positive terms
+  neg_terms...a set of negative terms
+Returns:
+  a list of tuples of form (positive, 1) or (negative, 1)      
+E.g.
+>>> sentiment_map('it was a terrible waste of time')
+[('negative', 1), ('negative', 1)]
+"""
+    

@@ -1,7 +1,7 @@
 # CMPS 2200  Recitation 04
 
-**Name (Team Member 1):**_________________________  
-**Name (Team Member 2):**_________________________
+**Name (Team Member 1):** Cece Haase 
+**Name (Team Member 2):** Nicole Davis
 
 
 In this lab you will practice using the `map` and `reduce` functions. These functions are commonly used together in a `map-reduce` framework, used by Google and others to parallelize and scale common computations.
@@ -22,6 +22,7 @@ then the output should be
 ```
 
 We have given you the implementation of the main map-reduce logic
+
 ```python
 def run_map_reduce(map_f, reduce_f, docs)
 ```
@@ -37,6 +38,8 @@ To use this function to count words, you'll need to implement your own `map_f` a
 4. Assume that a word `w` appears `n` times. What is the **work** and **span** of `word_count_reduce` for this word, assuming a parallel implementation of the `reduce` function?
 
 **Enter answer here**
+Work: O(n)
+Span: O(logn)
 
 
 5. Why are we going through all this trouble? Couldn't I just use this function to count words?
@@ -52,7 +55,7 @@ for doc in docs:
 
 What is the problem that prevents us from easily parallelizing this solution?
 
-**Enter answer here**
+  The "counts" dictionary is updated each time a new word is found/encountered. This being said, in a parallelized environment, multiple threads would be run simultaneously. The "counts[term] = counts.get(term, 0) + 1", is not guaranteed to be updating simulataneously because it involved multiple operations. These operations have to be done in order and cannot happen atomically or at the same time. Race conditions also make this hard to parallelize because if 2+ threads try to update concurrently, as they would in a parallelized environment, the final count could be incorrect, leading to incorrect data.
 
 
 ## Part 2: Sentiment analysis
